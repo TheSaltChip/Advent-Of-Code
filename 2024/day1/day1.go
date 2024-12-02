@@ -1,6 +1,7 @@
-﻿package day1
+package day1
 
 import (
+	"2024/util"
 	"bufio"
 	"fmt"
 	"math"
@@ -9,10 +10,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-func stripBOM(str string) string {
-	return strings.TrimPrefix(str, "\ufeff")
-}
 
 func CreateLists() ([]int, []int, error) {
 	dat, err := os.Open("day1/input1.txt")
@@ -35,7 +32,7 @@ func CreateLists() ([]int, []int, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		elems := strings.Split(stripBOM(line), "   ")
+		elems := strings.Split(util.StripBOM(line), "   ")
 		num1, err1 := strconv.Atoi(elems[0])
 
 		if err1 != nil {
