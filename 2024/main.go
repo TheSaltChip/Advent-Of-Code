@@ -3,6 +3,7 @@ package main
 import (
 	"2024/day1"
 	"2024/day2"
+	"2024/day3"
 )
 
 //TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
@@ -38,7 +39,7 @@ const (
 
 func main() {
 
-	day := 2
+	day := 3
 
 	switch day {
 	case Day1:
@@ -48,6 +49,11 @@ func main() {
 	case Day2:
 		day2.Part1()
 		day2.Part2()
+		break
+	case Day3:
+		day3.Part1()
+		day3.Part2()
+		break
 	default:
 		panic("unhandled default case")
 	}
