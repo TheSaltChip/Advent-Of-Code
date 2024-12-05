@@ -29,11 +29,11 @@ func Part1() {
 	copy(copyMatrix, matrix)
 
 	rowsString := createString(matrix)
-	log.Println(rowsString)
+	//log.Println(rowsString)
 
 	reversedRowsString := slices.Clone(rowsString)
 	slices.Reverse(reversedRowsString)
-	log.Println(reversedRowsString)
+	//log.Println(reversedRowsString)
 
 	n := len(copyMatrix)
 	for i := 0; i < n; i++ {
@@ -43,14 +43,47 @@ func Part1() {
 	}
 
 	columnsString := createString(copyMatrix)
-	log.Println(columnsString)
+	//log.Println(columnsString)
 
 	reversedColumnsString := slices.Clone(columnsString)
 	slices.Reverse(reversedColumnsString)
-	log.Println(reversedColumnsString)
+	//log.Println(reversedColumnsString)
 
 	copy(copyMatrix, matrix)
 
+	var rightDiagonals []string
+	var leftDiagonals []string
+
+	for i := 0; i < n; i++ {
+		strBPosR := strings.Builder{}
+		strBNegR := strings.Builder{}
+		strBPosL := strings.Builder{}
+		strBNegL := strings.Builder{}
+		for j := 0; j < n; j++ {
+			strBPosR.WriteRune(copyMatrix[i+j][j])
+			strBNegR.WriteRune(copyMatrix[j][j+i])
+
+			//strBPosL.WriteRune(copyMatrix[j][n-j-i-1])
+			strBNegL.WriteRune(copyMatrix[n-j-i-1][j])
+
+			if j > 0 {
+			}
+			if i+j == len(copyMatrix)-1 {
+				break
+			}
+		}
+		if strBPosR.Len() < 3 {
+			continue
+		}
+
+		rightDiagonals = append(rightDiagonals, strBPosR.String())
+		rightDiagonals = append(rightDiagonals, strBNegR.String())
+		leftDiagonals = append(leftDiagonals, strBPosL.String())
+		leftDiagonals = append(leftDiagonals, strBNegL.String())
+	}
+
+	log.Println(rightDiagonals)
+	log.Println(leftDiagonals)
 }
 
 func createString(matrix [][]rune) []rune {

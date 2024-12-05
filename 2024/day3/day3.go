@@ -50,50 +50,6 @@ func Part1() {
 	log.Println(sum)
 }
 
-/*
-for {
-				if dontI == len(dontIndecies) && doI == len(doIndecies) {
-
-				}
-				log.Println(res, dontIndecies[dontI], doIndecies[doI])
-				if res[0] > dontIndecies[dontI][0] && res[0] > doIndecies[doI][0] {
-					if doI != len(doIndecies) && dontI != len(dontIndecies) {
-						doI++
-						dontI++
-						continue
-					} else if doI == len(doIndecies) && dontI != len(dontIndecies) {
-						if dontIndecies[dontI][0] > doIndecies[doI][0] {
-							do = false
-							break
-						} else {
-							dontI++
-						}
-					} else if doI != len(doIndecies) && dontI == len(dontIndecies) {
-						if doIndecies[doI][0] > dontIndecies[dontI][0] {
-							do = true
-							break
-						} else {
-							doI++
-						}
-					} else {
-						if doIndecies[doI][0] > dontIndecies[dontI][0] {
-							dontI++
-						} else {
-							doI++
-						}
-					}
-				} else if (res[0] > doIndecies[doI][0]) && (res[0] < dontIndecies[dontI][0]) {
-					do = true
-					break
-				} else if (res[0] < doIndecies[doI][0]) && (res[0] > dontIndecies[dontI][0]) {
-					do = false
-					continue outer
-				} else {
-					break
-				}
-			}
-*/
-
 func Part2() {
 	file, err := os.Open("day3/day3input.txt")
 
@@ -165,37 +121,6 @@ func Part2() {
 				do = false
 			}
 		}
-
-		/*for _, res := range resultIndecies {
-
-			for _, dontIndecy := range dontIndecies {
-				if res[0] > dontIndecy[0] {
-					dontI = dontIndecy[0]
-				}
-			}
-
-			for _, doIndecy := range doIndecies {
-				if res[0] > doIndecy[0] {
-					doI = doIndecy[0]
-				}
-			}
-
-			do = doI >= dontI
-
-			if !do {
-				continue
-			}
-
-			numStrs := line[res[0]+4 : res[1]-1]
-			nums, err := util.ToIntArray(numStrs, ",")
-			log.Printf("%d < %d > %d | %s \n", doI, res[0], dontI, numStrs)
-
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			sum += nums[0] * nums[1]
-		}*/
 	}
 
 	log.Println(sum)
