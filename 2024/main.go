@@ -57,7 +57,7 @@ func main() {
 		break
 	case Day4:
 		day4.Part1()
-		//day4.Part2()
+		day4.Part2()
 		break
 	default:
 		panic("unhandled default case")

@@ -2,9 +2,10 @@ package day4
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
-	"slices"
+	"regexp"
 	"strings"
 )
 
@@ -20,6 +21,9 @@ func Part1() {
 	scanner := bufio.NewScanner(file)
 
 	matrix := make([][]rune, 0, 24)
+	regXmas := regexp.MustCompile("(XMAS)")
+	regSamx := regexp.MustCompile("(SAMX)")
+	sumXmas := 0
 
 	for scanner.Scan() {
 		matrix = append(matrix, []rune(scanner.Text()))
@@ -28,12 +32,11 @@ func Part1() {
 	copyMatrix := make([][]rune, len(matrix))
 	copy(copyMatrix, matrix)
 
-	rowsString := createString(matrix)
-	//log.Println(rowsString)
+	rowsStrings := createString(matrix)
 
-	reversedRowsString := slices.Clone(rowsString)
-	slices.Reverse(reversedRowsString)
-	//log.Println(reversedRowsString)
+	for _, str := range rowsStrings {
+		sumXmas += len(regXmas.FindAllString(str, -1)) + len(regSamx.FindAllString(str, -1))
+	}
 
 	n := len(copyMatrix)
 	for i := 0; i < n; i++ {
@@ -42,17 +45,13 @@ func Part1() {
 		}
 	}
 
-	columnsString := createString(copyMatrix)
-	//log.Println(columnsString)
+	columnsStrings := createString(copyMatrix)
 
-	reversedColumnsString := slices.Clone(columnsString)
-	slices.Reverse(reversedColumnsString)
-	//log.Println(reversedColumnsString)
+	for _, str := range columnsStrings {
+		sumXmas += len(regXmas.FindAllString(str, -1)) + len(regSamx.FindAllString(str, -1))
+	}
 
-	copy(copyMatrix, matrix)
-
-	var rightDiagonals []string
-	var leftDiagonals []string
+	var diagonals []string
 
 	for i := 0; i < n; i++ {
 		strBPosR := strings.Builder{}
@@ -60,15 +59,14 @@ func Part1() {
 		strBPosL := strings.Builder{}
 		strBNegL := strings.Builder{}
 		for j := 0; j < n; j++ {
-			strBPosR.WriteRune(copyMatrix[i+j][j])
-			strBNegR.WriteRune(copyMatrix[j][j+i])
+			strBPosR.WriteRune(matrix[i+j][j])
+			strBPosL.WriteRune(matrix[j][n-j-i-1])
 
-			//strBPosL.WriteRune(copyMatrix[j][n-j-i-1])
-			strBNegL.WriteRune(copyMatrix[n-j-i-1][j])
-
-			if j > 0 {
+			if i > 0 {
+				strBNegR.WriteRune(matrix[j][j+i])
+				strBNegL.WriteRune(matrix[j+i][n-j-1])
 			}
-			if i+j == len(copyMatrix)-1 {
+			if i+j == len(matrix)-1 {
 				break
 			}
 		}
@@ -76,24 +74,68 @@ func Part1() {
 			continue
 		}
 
-		rightDiagonals = append(rightDiagonals, strBPosR.String())
-		rightDiagonals = append(rightDiagonals, strBNegR.String())
-		leftDiagonals = append(leftDiagonals, strBPosL.String())
-		leftDiagonals = append(leftDiagonals, strBNegL.String())
+		diagonals = append(diagonals, strBPosR.String())
+		diagonals = append(diagonals, strBNegR.String())
+		diagonals = append(diagonals, strBPosL.String())
+		diagonals = append(diagonals, strBNegL.String())
 	}
 
-	log.Println(rightDiagonals)
-	log.Println(leftDiagonals)
+	for _, diagonal := range diagonals {
+		sumXmas += len(regXmas.FindAllString(diagonal, -1)) + len(regSamx.FindAllString(diagonal, -1))
+	}
+
+	fmt.Println(sumXmas)
 }
 
-func createString(matrix [][]rune) []rune {
+func createString(matrix [][]rune) []string {
 	str := strings.Builder{}
 
+	var strs []string
+
 	for _, runes := range matrix {
+		str.Reset()
 		for _, r := range runes {
 			str.WriteRune(r)
 		}
+		strs = append(strs, str.String())
 	}
 
-	return []rune(str.String())
+	return strs
+}
+
+func Part2() {
+	file, err := os.Open("day4/day4input.txt")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	matrix := make([][]rune, 0, 24)
+	sumXmas := 0
+
+	for scanner.Scan() {
+		matrix = append(matrix, []rune(scanner.Text()))
+	}
+
+	for i := 0; i < len(matrix)-2; i++ {
+		for j := 0; j < len(matrix[i])-2; j++ {
+			if !((matrix[i][j] == 'M' && matrix[i+1][j+1] == 'A' && matrix[i+2][j+2] == 'S') ||
+				(matrix[i][j] == 'S' && matrix[i+1][j+1] == 'A' && matrix[i+2][j+2] == 'M')) {
+				continue
+			}
+
+			if !((matrix[i][j+2] == 'M' && matrix[i+1][j+1] == 'A' && matrix[i+2][j] == 'S') ||
+				(matrix[i][j+2] == 'S' && matrix[i+1][j+1] == 'A' && matrix[i+2][j] == 'M')) {
+				continue
+			}
+
+			sumXmas++
+		}
+	}
+
+	fmt.Println(sumXmas)
 }
