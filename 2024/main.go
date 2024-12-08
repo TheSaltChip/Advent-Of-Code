@@ -5,6 +5,8 @@ import (
 	"2024/day2"
 	"2024/day3"
 	"2024/day4"
+	"2024/day5"
+	"2024/day6"
 )
 
 //TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
@@ -40,7 +42,7 @@ const (
 
 func main() {
 
-	day := 4
+	day := 6
 
 	switch day {
 	case Day1:
@@ -58,6 +60,14 @@ func main() {
 	case Day4:
 		day4.Part1()
 		day4.Part2()
+		break
+	case Day5:
+		day5.Part1()
+		day5.Part2()
+		break
+	case Day6:
+		day6.Part1()
+		day6.Part2()
 		break
 	default:
 		panic("unhandled default case")

@@ -1,6 +1,9 @@
 package util
 
 import (
+	"bufio"
+	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -24,4 +27,14 @@ func ToIntArray(str string, sep string) ([]int, error) {
 	}
 
 	return ints, nil
+}
+
+func OpenFileAndScanner(path string) (*bufio.Scanner, *os.File) {
+	file, err := os.Open(path)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return bufio.NewScanner(file), file
 }
