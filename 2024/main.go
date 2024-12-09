@@ -7,6 +7,7 @@ import (
 	"2024/day4"
 	"2024/day5"
 	"2024/day6"
+	"2024/day7"
 )
 
 //TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
@@ -68,6 +69,10 @@ func main() {
 	case Day6:
 		day6.Part1()
 		day6.Part2()
+		break
+	case Day7:
+		day7.Part1()
+		day7.Part2()
 		break
 	default:
 		panic("unhandled default case")

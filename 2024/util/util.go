@@ -13,7 +13,7 @@ func StripBOM(str string) string {
 }
 
 func ToIntArray(str string, sep string) ([]int, error) {
-	elems := strings.Split(str, sep)
+	elems := strings.Split(strings.TrimSpace(str), sep)
 
 	ints := make([]int, len(elems))
 	var err error
