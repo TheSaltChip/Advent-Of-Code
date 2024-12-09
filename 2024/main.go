@@ -43,7 +43,7 @@ const (
 
 func main() {
 
-	day := 6
+	day := 7
 
 	switch day {
 	case Day1:
