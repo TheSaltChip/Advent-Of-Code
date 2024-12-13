@@ -8,10 +8,54 @@ import (
 	"2024/day5"
 	"2024/day6"
 	"2024/day7"
+	"2024/day8"
+	"2024/day9"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+func main() {
+
+	day := 9
+
+	switch day {
+	case Day9:
+		day9.Part1()
+		day9.Part2()
+	case Day8:
+		day8.Part1()
+		day8.Part2()
+		break
+	case Day7:
+		day7.Part1()
+		day7.Part2()
+		break
+	case Day6:
+		day6.Part1()
+		day6.Part2()
+		break
+	case Day5:
+		day5.Part1()
+		day5.Part2()
+		break
+	case Day4:
+		day4.Part1()
+		day4.Part2()
+		break
+	case Day3:
+		day3.Part1()
+		day3.Part2()
+		break
+	case Day2:
+		day2.Part1()
+		day2.Part2()
+		break
+	case Day1:
+		day1.Part1()
+		day1.Part2()
+		break
+	default:
+		panic("unhandled default case")
+	}
+}
 
 const (
 	_    = iota
@@ -40,41 +84,3 @@ const (
 	Day23
 	Day24
 )
-
-func main() {
-
-	day := 7
-
-	switch day {
-	case Day1:
-		day1.Part1()
-		day1.Part2()
-		break
-	case Day2:
-		day2.Part1()
-		day2.Part2()
-		break
-	case Day3:
-		day3.Part1()
-		day3.Part2()
-		break
-	case Day4:
-		day4.Part1()
-		day4.Part2()
-		break
-	case Day5:
-		day5.Part1()
-		day5.Part2()
-		break
-	case Day6:
-		day6.Part1()
-		day6.Part2()
-		break
-	case Day7:
-		day7.Part1()
-		day7.Part2()
-		break
-	default:
-		panic("unhandled default case")
-	}
-}
