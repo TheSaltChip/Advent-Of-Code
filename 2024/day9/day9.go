@@ -96,7 +96,82 @@ func Part1() {
 	fmt.Println("Sum", sum)
 }
 
+type pair[T, U any] struct {
+	left  T
+	right U
+}
+
 func Part2() {
+	scanner, file := util.OpenFileAndScanner("day9/day9input.txt")
+
+	defer file.Close()
+
+	scanner.Scan()
+	input := util.StripBOM(scanner.Text())
+	nums, err := util.ToIntArray(input, "")
+	if err != nil {
+		panic(err)
+	}
+
+	// Build initial state
+	fileBlocks := make([]int, 0, 50000)
+	fileId := 0
+	var fileLengths []pair[int, pair[int, int]]
+	var gapLengths []pair[int, int]
+
+	fileId = 0
+	for i := 0; i < len(nums); i += 2 {
+		if i != 0 {
+			fileLengths = append(fileLengths, pair[int, pair[int, int]]{fileId, pair[int, int]{len(fileBlocks), nums[i]}})
+		}
+		// Add file blocks
+		for j := 0; j < nums[i]; j++ {
+			fileBlocks = append(fileBlocks, fileId)
+		}
+		// Add gaps
+		if i+1 < len(nums) {
+			gapLengths = append(gapLengths, pair[int, int]{len(fileBlocks), nums[i+1]})
+			for j := 0; j < nums[i+1]; j++ {
+				fileBlocks = append(fileBlocks, -1)
+			}
+		}
+		fileId++
+	}
+
+	slices.Reverse(fileLengths)
+
+	for _, p := range fileLengths {
+		for j := 0; j < len(gapLengths); j++ {
+			gap := gapLengths[j]
+			if p.right.right > 0 && p.right.right <= gap.right && p.right.left > gap.left {
+				gap.right -= p.right.right
+				for p.right.right > 0 {
+					p.right.right--
+					fileBlocks[gap.left] = p.left
+					fileBlocks[p.right.left] = -1
+					p.right.left++
+					gap.left++
+				}
+				if gap.right == 0 {
+					gapLengths = append(gapLengths[:j], gapLengths[j+1:]...)
+				} else {
+					gapLengths[j] = gap
+				}
+			}
+		}
+	}
+
+	fmt.Println(fileBlocks)
+
+	// Calculate checksum
+	sum := 0
+	for pos, fileId := range fileBlocks {
+		if fileId != -1 {
+			sum += pos * fileId
+		}
+	}
+
+	fmt.Println("Sum", sum)
 }
 
 // Claude's solution
